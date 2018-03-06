@@ -33,12 +33,27 @@ def phase_message(recv_message,sender_id,message_id,phase):
 	if sender_id == 0x7 or sender_id == 0x9 or sender_id == 0xB:
 	#       print("message_id: 0x%x sender_id: 0x%x" % (message_id, sender_id))
 		if message_id == 0x200:
-			print("Phase(%d) ac volt: %f current: %f "% (phase, recv_message.data[1],((((recv_message.data[7] & 3) * 256) + recv_message.data[6]))/28))
-			asd22 = None
+			acvolts = recv_message.data[1]
+			ac_present = recv_message.data[2] & 12;
+			mod_end = recv_message.data[2] & 0x40;
+			mod_flt = recv_message.data[2] & 0x20;
+			accur = (recv_message.data[6] & 3) << 7) + (recv_message.data[5] & 0x7f)
+			print("Phase(%d) ac volt: %f current: %f "% (phase, ,accur))
+			
+		elif message_id == 0x210:
+			print("{0:b}".format(recv_message.data[0], '016b'))
 		elif message_id == 0x220:
-			dc_voltage = (recv_message.data[3] * 256) + recv_message.data[2]
-			dc_current = (recv_message.data[7] * 256) + recv_message.data[6]
-			print("Phase(%d) dc voltage: %0.2f V current: %0.2f mA" % (phase, dc_voltage/100,dc_current/1000 ))
+			dc_current = ((recv_message.data[5] << 8) + recv_message.data[4]) * 0.000839233
+			dc_voltage = ((recv_message.data[3] << 8) + recv_message.data[2]) * 0.01052864
+			print("Phase(%d) DC voltage: %0.2f V current: %0.2f mA" % (phase, dc_voltage/100,dc_current/1000 ))
+		elif message_id == 0x230:
+			//temperature message 1
+			print("Phase(%d) temp 0: %0.2f" %(recv_message.data[0]-40));
+			print("Phase(%d) temp 1: %0.2f" %(recv_message.data[1]-40));
+			print("Phase(%d) inlet temp: %0.2f" %(recv_message.data[5]-40));
+		elif message_id == 0x240:
+			//current temperature limit message
+			print("Phase(%d) temp limit: %0.2f" %(recv_message.data[0]*0.234375));
 		elif message_id == 0x540:
 			print("Phase(%d) error count %d of 50"%(phase,recv_message.data[0]))
 	else:
