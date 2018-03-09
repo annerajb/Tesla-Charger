@@ -17,3 +17,20 @@ Crude arduino sketch to run one power module in the gen2 charger. Runs on an ard
 
 
 05/11/17 : Updated Design files and PCBs ordered for prototype builds.
+
+17/11/17 : BOM uploaded for the V1 board.
+
+
+08/12/17 : Added Tesla_charger_Tom_v2_test.ino source file. Should run all 3 phases with the V1 logic board. Untested.
+
+20/12/17 : Added design files for V2 Charger control board. Major changes :
+
+Added 2M Serial EEPROM for parameter storage
+
+Changed to a Vertical type B USB socket.
+
+27/02/18 : Error found on the V2 board. Missing grounds on Q1 and D5. Affects EVSE control only. Will ammend in a rev3 board asap.
+
+28/02/18 : V3 design files released with grounds fixed. Also new S/W thanks to Tom DeBree released but untested as of today. Also pictures of mod required on V1 and V2 boards.
+
+Enjoy!
